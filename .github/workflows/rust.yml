@@ -18,17 +18,20 @@ jobs:
         os: [windows-latest]
     steps:
     - uses: actions/checkout@v2
-    - uses: msys2/setup-msys2@v2
-      if: ${{ matrix.os == 'windows-latest' }}
-      with:
-        update: true
-        install: mingw-w64-x86_64-clang
     - name: Install LLVM
-      if: ${{ matrix.os == 'windows-latest' }}
       run: |
-            curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
-            .\LLVM-10.0.0-win64.exe -S
-            ls "C:\Program Files\LLVM\bin"
+      choco install llvm
+    # - uses: msys2/setup-msys2@v2
+    #   if: ${{ matrix.os == 'windows-latest' }}
+    #   with:
+    #     update: true
+    #     install: mingw-w64-x86_64-clang
+    # - name: Install LLVM
+    #   if: ${{ matrix.os == 'windows-latest' }}
+    #   run: |
+    #         curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
+    #         .\LLVM-10.0.0-win64.exe -S
+    #         ls "C:\Program Files\LLVM\bin"
     - name: Install rust
       uses: actions-rs/toolchain@v1
       with:
