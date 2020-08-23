@@ -28,6 +28,7 @@ jobs:
       run: |
             curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
             .\LLVM-10.0.0-win64.exe -S
+            ls "C:\Program Files\LLVM\bin"
     - name: Install rust
       uses: actions-rs/toolchain@v1
       with:
