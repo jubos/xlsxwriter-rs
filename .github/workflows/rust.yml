@@ -17,6 +17,11 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
+    - name: Install LLVM
+    if: ${{ matrix.os == 'windows-latest' }}
+    run: |
+          curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
+          .\LLVM-10.0.0-win64.exe -S
     - name: Install rust
       uses: actions-rs/toolchain@v1
       with:
