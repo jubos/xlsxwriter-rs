@@ -14,23 +14,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        #os: [windows-latest, macos-latest, ubuntu-latest]
-        os: [windows-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        #os: [windows-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Install LLVM
       run: choco install llvm
-    # - uses: msys2/setup-msys2@v2
-    #   if: ${{ matrix.os == 'windows-latest' }}
-    #   with:
-    #     update: true
-    #     install: mingw-w64-x86_64-clang
-    # - name: Install LLVM
-    #   if: ${{ matrix.os == 'windows-latest' }}
-    #   run: |
-    #         curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
-    #         .\LLVM-10.0.0-win64.exe -S
-    #         ls "C:\Program Files\LLVM\bin"
     - name: Install rust
       uses: actions-rs/toolchain@v1
       with:
@@ -63,8 +52,6 @@ jobs:
           ${{ runner.os }}-
     - name: Build
       uses: actions-rs/cargo@v1
-      env:
-        LIBCLANG_PATH: C:\Program Files\LLVM\bin\libclang.dll
       with:
         command: build
     - name: Test
