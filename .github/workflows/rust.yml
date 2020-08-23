@@ -17,11 +17,18 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
+    - uses: msys2/setup-msys2@v2
+      if: ${{ matrix.os == 'windows-latest' }}
     - name: Install LLVM
       if: ${{ matrix.os == 'windows-latest' }}
+      shell: msys2 {0}
       run: |
-            curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
-            .\LLVM-10.0.0-win64.exe -S
+        pacman --noconfirm -S mingw-w64-x86_64-clang
+    # - name: Install LLVM
+    #   if: ${{ matrix.os == 'windows-latest' }}
+    #   run: |
+    #         curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
+    #         .\LLVM-10.0.0-win64.exe -S
     - name: Install rust
       uses: actions-rs/toolchain@v1
       with:
