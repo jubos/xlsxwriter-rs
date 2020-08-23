@@ -10,11 +10,12 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  win-mac-build:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        #os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest]
     steps:
     - uses: actions/checkout@v2
     - uses: msys2/setup-msys2@v2
@@ -23,7 +24,7 @@ jobs:
       if: ${{ matrix.os == 'windows-latest' }}
       shell: msys2 {0}
       run: |
-        pacman -Syu
+        pacman -Sy
         pacman --noconfirm -S mingw-w64-x86_64-clang
         s /mingw64/bin
     # - name: Install LLVM
