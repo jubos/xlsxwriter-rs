@@ -26,7 +26,7 @@ jobs:
       run: |
         pacman -Sy
         pacman --noconfirm -S mingw-w64-x86_64-clang
-        s /mingw64/bin
+        ls /mingw64/bin
     # - name: Install LLVM
     #   if: ${{ matrix.os == 'windows-latest' }}
     #   run: |
