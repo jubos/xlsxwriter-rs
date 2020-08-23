@@ -2,7 +2,7 @@ name: Rust
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, test-actions ]
   pull_request:
     branches: [ master ]
 
@@ -17,6 +17,12 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
+    - name: Install rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+        components: rustfmt, clippy
     - name: Cache dependencies
       uses: actions/cache@v2
       env:
@@ -41,17 +47,11 @@ jobs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
           ${{ runner.os }}-build-
           ${{ runner.os }}-
-    - name: Install LLVM
-      if: ${{ matrix.os == 'windows-latest' }}
-      run: |
-            curl -OL "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe"
-            .\LLVM-10.0.0-win64.exe -S
     - name: Build
-      run: cargo build
-      env:
-        PATH: ${{ format('C:\Program Files\LLVM\bin;{0}', env.PATH) }}
-    - name: Run tests
-      run: cargo test --verbose
-      env:
-        PATH: ${{ format('C:\Program Files\LLVM\bin;{0}', env.PATH) }}
-
+      uses: actions-rs/cargo@v1
+      with:
+        command: build
+    - name: Test
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
